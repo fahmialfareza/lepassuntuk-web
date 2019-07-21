@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Edit Mobil | Rental Mobil | Admin | Lepas Suntuk</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/adminlte/bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="/adminlte/bower_components/Ionicons/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/adminlte/dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="/adminlte/dist/css/skins/_all-skins.min.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+
+  @include('admin.layouts.header')
+  <!-- Full Width Column -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          Rental Mobil
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
+          <li><a href="{{route('admin.carrentals.index')}}">Rental Mobil</a></li>
+          <li class="active">Edit Mobil</li>
+        </ol>
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="callout callout-info">
+          <h4>Tip!</h4>
+          <p></p>
+        </div>
+        <div class="callout callout-danger">
+          <h4>Warning!</h4>
+          <p></p>
+        </div>
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <h3 class="box-title">Edit Mobil -- #{{$car->id}}</h3> <br>
+          </div>
+          <div class="box-body">
+            <form class="" action="{{route('admin.carrentals.update', $car->id)}}" method="post" enctype="multipart/form-data">
+              {{csrf_field()}}
+              <input name="_method" type="hidden" value="PUT">
+              <div class="form-group">
+                <label>Brand *</label>
+                <input type="text" name="brand" class="form-control" placeholder="Contoh : Toyota" value="{{old('brand', $car->brand)}}" required>
+                @if ($errors->has('brand'))
+                  <span class="help-block">
+                    <strong>{{$errors->first('brand')}}</strong>
+                  </span>
+                @endif
+              </div>
+              <div class="form-group">
+                <label>Tipe *</label>
+                <input type="text" name="type" class="form-control" value="{{old('type', $car->type)}}" placeholder="Contoh : Avanza" required>
+                @if ($errors->has('type'))
+                  <span class="help-block">
+                    <strong>{{$errors->first('type')}}</strong>
+                  </span>
+                @endif
+              </div>
+              <div class="form-group">
+                <label>Dengan Driver</label>
+                <select name="driver" class="form-control">
+                  <option value="0" @if ($car->driver == 0)
+                    selected
+                  @endif >Tidak</option>
+                  <option value="1" @if ($car->driver == 1)
+                    selected
+                  @endif >Iya</option>
+                </select>
+                @if ($errors->has('driver'))
+                  <span class="help-block">
+                    <strong>{{$errors->first('driver')}}</strong>
+                  </span>
+                @endif
+              </div>
+              <div class="form-group">
+                <label>Dengan Bensin</label>
+                <select name="fuel" class="form-control">
+                  <option value="0" @if ($car->fuel == 0)
+                    selected
+                  @endif >Tidak</option>
+                  <option value="1" @if ($car->fuel == 1)
+                    selected
+                  @endif >Iya</option>
+                </select>
+                @if ($errors->has('fuel'))
+                  <span class="help-block">
+                    <strong>{{$errors->first('fuel')}}</strong>
+                  </span>
+                @endif
+              </div>
+              <div class="form-group">
+                <label>Harga (12 Jam)</label>
+                <input type="number" name="price_12_hours" class="form-control" value="{{old('price_12_hours', $car->price_12_hours)}}" placeholder="Contoh : 300000">
+                @if ($errors->has('price_12_hours'))
+                  <span class="help-block">
+                    <strong>{{$errors->first('price_12_hours')}}</strong>
+                  </span>
+                @endif
+              </div>
+              <div class="form-group">
+                <label>Harga (Full Day) *</label>
+                <input type="number" name="price_full_day" class="form-control" value="{{old('price_full_day', $car->price_full_day)}}" placeholder="Contoh : 600000" required>
+                @if ($errors->has('price_full_day'))
+                  <span class="help-block">
+                    <strong>{{$errors->first('price_full_day')}}</strong>
+                  </span>
+                @endif
+              </div>
+              <div class="form-group">
+                <label>Extra Charge *</label>
+                <input type="number" name="extra_charge" class="form-control" value="{{old('extra_charge', $car->extra_charge)}}" placeholder="Contoh : 50000" required>
+                @if ($errors->has('extra_charge'))
+                  <span class="help-block">
+                    <strong>{{$errors->first('extra_charge')}}</strong>
+                  </span>
+                @endif
+              </div>
+              <div class="form-group">
+                <label for="exampleInputFile">Foto Mobil</label>
+                <input type="file" id="exampleInputFile" name="photo" accept="image/x-png,image/gif,image/jpeg,image/x-MS-bmp" value="{{old('photo', $car->photo)}}">
+                <p class="help-block">Maksimal Foto 1 MB.</p>
+                @if ($errors->has('photo'))
+                  <span class="help-block">
+                    <strong>{{$errors->first('photo')}}</strong>
+                  </span>
+                @endif
+              </div>
+              <div class="box-footer">
+                <button type="reset" class="btn btn-default">Reset</button>
+                <button type="submit" class="btn btn-info pull-right">Submit</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.container -->
+  </div>
+  <!-- /.content-wrapper -->
+  @include('admin.layouts.footer')
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="/adminlte/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="/adminlte/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/adminlte/dist/js/demo.js"></script>
+</body>
+</html>
